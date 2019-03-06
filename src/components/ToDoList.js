@@ -1,7 +1,6 @@
 import React, {Component, Fragment} from 'react';
 import {connect} from 'react-redux'
-import {deleteTodo} from "../redux/actions";
-import {updateTodo} from "../redux/actions";
+import {deleteItem, updateTodo, fetchAllTodos, fetchCompleteTodos, fetchIncompleteTodos} from "../redux/actions";
 
 import Button from '@material-ui/core/Button';
 import IconEdit from '@material-ui/icons/Edit';
@@ -10,12 +9,13 @@ import IconClear from '@material-ui/icons/Clear';
 
 class ToDoList extends Component {
     handleDelete = (val) => {
+        console.log(val);
         this.props.deleteTodo({
             id: val
         })
     }
     render() {
-        const {todos} = this.props
+        const {todos, fetchAll, fetchComplete, fetchIncomplete} = this.props
         return (
             <Fragment>
                 <table>
@@ -24,14 +24,19 @@ class ToDoList extends Component {
                             <th>Todos</th>
                         </tr>
                         {todos.map(todo => (
-                            <tr key={todo.id}>
-                                <td>{todo.text}</td>
+                            <tr key={todo.id} >
+                                <td style={{textDecoration: todo.completed? 'line-through' : 'none'}}>{todo.text}</td>
                                 <td><Button><IconEdit/></Button></td>
                                 <td><Button><IconClear onClick={() => this.handleDelete(todo.id)}/></Button></td>
                             </tr>
                         ))}
                     </tbody>
                 </table>
+                <div>
+                    <button onClick={fetchAll}>All</button>
+                    <button onClick={fetchComplete}>Complete</button>
+                    <button onClick={fetchIncomplete}>Incomplete</button>
+                </div>
             </Fragment>
         );
     }
@@ -42,7 +47,10 @@ const mapStateToProps = state => {
     }
 }
 const mapDispatchToProps = dispatch => ({
-    deleteTodo: val => dispatch(deleteTodo(val)),
+    deleteTodo: val => dispatch(deleteItem(val)),
+    fetchAll: val => dispatch(fetchAllTodos(val)),
+    fetchComplete: val => dispatch(fetchCompleteTodos(val)),
+    fetchIncomfetch: val => dispatch(fetchIncompleteTodos(val)),
     updateTodo: val => dispatch(updateTodo(val)),
 })
 

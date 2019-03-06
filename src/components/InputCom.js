@@ -1,19 +1,47 @@
 import React, {Component, Fragment} from 'react';
-// Funkce na generování UUID  (nepsána mnou)
-function b(a){return a?(a^Math.random()*16>>a/4)
-    .toString(16):([1e7]+-1e3+-4e3+-8e3+-1e11)
-    .replace(/[018]/g,b)}
-////
+import {addTodo, addNewTodo} from "../redux/actions";
+import {connect} from "react-redux";
 
 class InputCom extends Component {
+    state = {
+        input: ''
+    }
+    handleChange = (e) => {
+        e.preventDefault();
+        this.setState({
+            input: e.target.value
+        })
+    }
+    handleSubmit = (e) => {
+        e.preventDefault();
+        this.props.addTodo({
+            text: this.state.input
+        })
+    }
 
     render() {
-        console.log(b())
+
         return (
             <Fragment>
-                <input type="text" required />
+                <form onSubmit={this.handleSubmit}>
+                    <input type="text"
+                           onChange={this.handleChange}
+                           name='form'
+                           value={this.state.input}
+                           required/>
+                    <button type="submit">Přidat ToDo</button>
+                </form>
             </Fragment>
         );
     }
 }
-export default InputCom;
+
+const mapStateToProps = state => {
+    return {
+        todos:state.todos
+    }
+}
+const mapDispatchToProps = dispatch => ({
+    addTodo: val => dispatch(addNewTodo(val)),
+})
+export default connect(mapStateToProps, mapDispatchToProps)(InputCom);
