@@ -17,6 +17,7 @@ class InputCom extends Component {
         this.props.addTodo({
             text: this.state.input
         })
+        this.setState({input:''})
     }
 
     render() {

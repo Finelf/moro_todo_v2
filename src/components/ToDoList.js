@@ -33,9 +33,11 @@ class ToDoList extends Component {
                     </tbody>
                 </table>
                 <div>
+                    {/*<button onClick={completeAll}>Incomplete</button>*/}
                     <button onClick={fetchAll}>All</button>
                     <button onClick={fetchComplete}>Complete</button>
                     <button onClick={fetchIncomplete}>Incomplete</button>
+                    {/*<button onClick={deleteAllComplete}>Incomplete</button>*/}
                 </div>
             </Fragment>
         );
@@ -50,7 +52,7 @@ const mapDispatchToProps = dispatch => ({
     deleteTodo: val => dispatch(deleteItem(val)),
     fetchAll: val => dispatch(fetchAllTodos(val)),
     fetchComplete: val => dispatch(fetchCompleteTodos(val)),
-    fetchIncomfetch: val => dispatch(fetchIncompleteTodos(val)),
+    fetchIncomplete: val => dispatch(fetchIncompleteTodos(val)),
     updateTodo: val => dispatch(updateTodo(val)),
 })
 
