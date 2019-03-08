@@ -10,9 +10,11 @@ export default (state = initialState, {type, payload}) => {
         case Actions.GET_TODO:
             newState.todos = payload;
             return newState;
+        case Actions.TOGGLE_DONE:
+            newState.todos = payload;
+            return newState;
         case Actions.UPDATE_TODO:
-            console.log('hello?')
-            //newState.todos
+
             return newState;
         default:
             return {...state}

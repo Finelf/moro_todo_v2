@@ -1,10 +1,9 @@
-//import Actions from './constants'
 import axios from 'axios';
-
 const apiUrl = 'http://localhost:8080/todos';
 
 export const Actions = {
-    GET_TODO: 'GET_TODO', // done
+    GET_TODO: 'GET_TODO',
+    TOGGLE_DONE: 'TOGGLE_DONE',
     UPDATE_TODO: 'UPDATE_TODO',
 };
 export const getTodo = (todos) => ({
@@ -26,7 +25,6 @@ export const fetchAllTodos = () => {
         return axios.get(apiUrl)
             .then(response => {
                 let newResponse = response.data.forEach(item => {
-                   item['checked'] = false;
                    item['isEditing'] = false;
                 })
                 console.log(newResponse)
@@ -83,17 +81,25 @@ export const updateTodo = (val) => ({
         text: val.text,
     }
 });
-export const completeTodo = (load) => {
+export const completeTodo = (id) => {
     return dispatch => {
-        return axios.post(apiUrl + '/' + load.id + '/complete', {
-            id: load.id
-        }).then(response => {
-            dispatch(fetchAllTodos(response.data))
+        return axios.post(apiUrl + '/' + id.id + '/complete', {
+            id: id.id
+        }).then( () => {
+            dispatch(fetchAllTodos())
         }).catch(error => {
             throw(error)
         })
     }
 }
-export const incompleteTodo = (val) => ({
-
-});
+export const incompleteTodo = (id) => {
+    return dispatch => {
+        return axios.post(apiUrl + '/' + id.id + '/incomplete', {
+            id: id.id
+        }).then( () => {
+            dispatch(fetchAllTodos())
+        }).catch(error => {
+            throw(error)
+        })
+    }
+};

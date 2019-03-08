@@ -3,18 +3,14 @@ import {connect} from 'react-redux'
 import {
     deleteItem,
     updateTodo,
-    fetchAllTodos,
-    fetchCompleteTodos,
-    fetchIncompleteTodos,
-    deleteComplete,
-    completeTodo
+    completeTodo,
+    incompleteTodo
 } from "../redux/actions";
 
 import Button from '@material-ui/core/Button';
 import IconEdit from '@material-ui/icons/Edit';
 import IconClear from '@material-ui/icons/Clear';
 import Checkbox from '@material-ui/core/Checkbox'
-import InputCom from "./InputCom";
 
 
 class ToDoList extends Component {
@@ -26,17 +22,21 @@ class ToDoList extends Component {
             id: val
         })
     }
-    handleComplete = (val) => {
-        this.props.completeTodo({
-            id: val
-        })
-    }
-    onCheck = () => {
-
+    toggleDone = (id, check) => {
+        if(check === false){
+            this.props.completeTodo({
+                id: id
+            })
+        }
+        else{
+            this.props.incompleteTodo({
+                id: id
+            })
+        }
     }
 
     render() {
-        const {todos, completeTodo} = this.props
+        const {todos} = this.props
         return (
             <Fragment>
                 <table>
@@ -46,18 +46,9 @@ class ToDoList extends Component {
                     </tr>
                     {todos.map(todo => (
                         <tr key={todo.id}>
-                            <td><Button onClick={() => this.handleComplete(todo.id)}>Complete</Button></td>
-                            <td>
-                                <div //Field
-                                    //name="employed"
-                                    //id="employed"
-                                    //component={input}
-                                    //type="checkbox"
-                                />
-
-                                <Checkbox //checked={}
-                                    //onChange={}
-                                    //value={}}
+                            <td><Checkbox checked={todo.completed}
+                                          onChange={() => this.toggleDone(todo.id, todo.completed)}
+                                          value="toggle done"
                                 />
                             </td>
                             <td>
@@ -65,8 +56,8 @@ class ToDoList extends Component {
                                     <span style={{textDecoration: todo.completed ? 'line-through' : 'none'}}>{todo.text}</span>
                                 }
                             </td>
-                            <td><Button><IconEdit onClick={() => this.setState({isEditing: true})}/></Button></td>
-                            <td><Button><IconClear onClick={() => this.handleDelete(todo.id)}/></Button></td>
+                            <td><IconEdit onClick={() => this.setState({isEditing: true})}/></td>
+                            <td><IconClear onClick={() => this.handleDelete(todo.id)}/></td>
                         </tr>
                     ))}
                     </tbody>
@@ -84,6 +75,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => ({
     deleteTodo: val => dispatch(deleteItem(val)),
     completeTodo: val => dispatch(completeTodo(val)),
+    incompleteTodo: val => dispatch(incompleteTodo(val)),
     updateTodo: val => dispatch(updateTodo(val)),
 })
 
