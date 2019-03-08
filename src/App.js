@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import InputCom from './components/InputCom'
 import ToDoList from './components/ToDoList'
+import Footer from "./components/Footer";
 
 class App extends Component {
   render() {
@@ -8,6 +9,7 @@ class App extends Component {
       <div className="App">
           <InputCom/>
           <ToDoList/>
+          <Footer/>
       </div>
     );
   }

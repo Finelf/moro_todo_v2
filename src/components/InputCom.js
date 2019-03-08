@@ -29,8 +29,8 @@ class InputCom extends Component {
                            onChange={this.handleChange}
                            name='form'
                            value={this.state.input}
-                           required/>
-                    <button type="submit">Přidat ToDo</button>
+                           required
+                    />
                 </form>
             </Fragment>
         );

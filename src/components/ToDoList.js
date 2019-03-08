@@ -1,48 +1,81 @@
 import React, {Component, Fragment} from 'react';
 import {connect} from 'react-redux'
-import {deleteItem, updateTodo, fetchAllTodos, fetchCompleteTodos, fetchIncompleteTodos} from "../redux/actions";
+import {
+    deleteItem,
+    updateTodo,
+    fetchAllTodos,
+    fetchCompleteTodos,
+    fetchIncompleteTodos,
+    deleteComplete,
+    completeTodo
+} from "../redux/actions";
 
 import Button from '@material-ui/core/Button';
 import IconEdit from '@material-ui/icons/Edit';
 import IconClear from '@material-ui/icons/Clear';
+import Checkbox from '@material-ui/core/Checkbox'
+import InputCom from "./InputCom";
 
 
 class ToDoList extends Component {
+    state = {
+        isEditing: false
+    }
     handleDelete = (val) => {
-        console.log(val);
         this.props.deleteTodo({
             id: val
         })
     }
+    handleComplete = (val) => {
+        this.props.completeTodo({
+            id: val
+        })
+    }
+    onCheck = () => {
+
+    }
+
     render() {
-        const {todos, fetchAll, fetchComplete, fetchIncomplete} = this.props
+        const {todos, completeTodo} = this.props
         return (
             <Fragment>
                 <table>
                     <tbody>
-                        <tr>
-                            <th>Todos</th>
+                    <tr>
+                        <th>Todos</th>
+                    </tr>
+                    {todos.map(todo => (
+                        <tr key={todo.id}>
+                            <td><Button onClick={() => this.handleComplete(todo.id)}>Complete</Button></td>
+                            <td>
+                                <div //Field
+                                    //name="employed"
+                                    //id="employed"
+                                    //component={input}
+                                    //type="checkbox"
+                                />
+
+                                <Checkbox //checked={}
+                                    //onChange={}
+                                    //value={}}
+                                />
+                            </td>
+                            <td>
+                                {this.state.isEditing ? <div/> :
+                                    <span style={{textDecoration: todo.completed ? 'line-through' : 'none'}}>{todo.text}</span>
+                                }
+                            </td>
+                            <td><Button><IconEdit onClick={() => this.setState({isEditing: true})}/></Button></td>
+                            <td><Button><IconClear onClick={() => this.handleDelete(todo.id)}/></Button></td>
                         </tr>
-                        {todos.map(todo => (
-                            <tr key={todo.id} >
-                                <td style={{textDecoration: todo.completed? 'line-through' : 'none'}}>{todo.text}</td>
-                                <td><Button><IconEdit/></Button></td>
-                                <td><Button><IconClear onClick={() => this.handleDelete(todo.id)}/></Button></td>
-                            </tr>
-                        ))}
+                    ))}
                     </tbody>
                 </table>
-                <div>
-                    {/*<button onClick={completeAll}>Incomplete</button>*/}
-                    <button onClick={fetchAll}>All</button>
-                    <button onClick={fetchComplete}>Complete</button>
-                    <button onClick={fetchIncomplete}>Incomplete</button>
-                    {/*<button onClick={deleteAllComplete}>Incomplete</button>*/}
-                </div>
             </Fragment>
         );
     }
 }
+
 const mapStateToProps = state => {
     return {
         todos: state.todos
@@ -50,10 +83,8 @@ const mapStateToProps = state => {
 }
 const mapDispatchToProps = dispatch => ({
     deleteTodo: val => dispatch(deleteItem(val)),
-    fetchAll: val => dispatch(fetchAllTodos(val)),
-    fetchComplete: val => dispatch(fetchCompleteTodos(val)),
-    fetchIncomplete: val => dispatch(fetchIncompleteTodos(val)),
+    completeTodo: val => dispatch(completeTodo(val)),
     updateTodo: val => dispatch(updateTodo(val)),
 })
 
-export default connect(mapStateToProps,mapDispatchToProps)(ToDoList);
+export default connect(mapStateToProps, mapDispatchToProps)(ToDoList);

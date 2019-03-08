@@ -4,21 +4,13 @@ import axios from 'axios';
 const apiUrl = 'http://localhost:8080/todos';
 
 export const Actions = {
-    ADD_TODO: 'ADD_TODO', // done
     GET_TODO: 'GET_TODO', // done
-    GET_COMPLETE_TODO: 'GET_COMPLETE_TODO', // done
-    GET_INCOMPLETE_TODO: 'GET_INCOMPLETE_TODO', //in progress
-    DELETE_TODO: 'DELETE_TODO', // done
     UPDATE_TODO: 'UPDATE_TODO',
-    COMPLETE_TODO: 'COMPLETE_TODO',
-    INCOMPLETE_TODO: 'INCOMPLETE_TODO',
 };
-
-export const addTodo = (val) => ({
-    type: Actions.ADD_TODO,
-    payload: {text: val.text,}
+export const getTodo = (todos) => ({
+    type: Actions.GET_TODO,
+    payload: todos
 });
-
 export const addNewTodo = (payload) => {
     return dispatch => {
         return axios.post(apiUrl, {
@@ -27,16 +19,17 @@ export const addNewTodo = (payload) => {
             dispatch(fetchAllTodos())
         })
     }
-}
-
-export const getTodo = (todos) => ({
-    type: Actions.GET_TODO,
-    payload: todos
-});
+};
 export const fetchAllTodos = () => {
     return dispatch => {
+
         return axios.get(apiUrl)
             .then(response => {
+                let newResponse = response.data.forEach(item => {
+                   item['checked'] = false;
+                   item['isEditing'] = false;
+                })
+                console.log(newResponse)
                 dispatch(getTodo(response.data))
             }).catch(error => {
                 throw(error)
@@ -55,7 +48,7 @@ export const fetchCompleteTodos = () => {
 };
 export const fetchIncompleteTodos = () => {
     return dispatch => {
-        return axios.get(`${apiUrl}?completed=false`)
+        return axios.get(`${apiUrl}/incompleted`)
             .then(response => {
                 dispatch(getTodo(response.data))
             }).catch(error => {
@@ -64,9 +57,18 @@ export const fetchIncompleteTodos = () => {
     }
 };
 export const deleteItem = (id) => {
-    console.log('delete', id.id)
     return dispatch => {
-        return axios.delete(apiUrl+'/'+id.id)
+        return axios.delete(apiUrl + '/' + id.id)
+            .then(() => {
+                dispatch(fetchAllTodos())
+            }).catch(error => {
+                throw(error)
+            })
+    }
+}
+export const deleteComplete = () => {
+    return dispatch => {
+        return axios.delete(apiUrl + '/completed')
             .then(() => {
                 dispatch(fetchAllTodos())
             }).catch(error => {
@@ -81,17 +83,17 @@ export const updateTodo = (val) => ({
         text: val.text,
     }
 });
-export const completeTodo = (val) => ({
-    type: 'COMPLETE_TODO',
-    payload: {
-        id: val.id,
-        completed: true
+export const completeTodo = (load) => {
+    return dispatch => {
+        return axios.post(apiUrl + '/' + load.id + '/complete', {
+            id: load.id
+        }).then(response => {
+            dispatch(fetchAllTodos(response.data))
+        }).catch(error => {
+            throw(error)
+        })
     }
-});
+}
 export const incompleteTodo = (val) => ({
-    type: 'INCOMPLETE_TODO',
-    payload: {
-        id: val.id,
-        completed: false
-    }
+
 });
