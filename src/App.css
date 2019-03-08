@@ -1,5 +1,13 @@
+body {
+  background: url(./img/lednice.jpeg) no-repeat;
+  background-size: cover
+}
 .App {
-  text-align: center;
+  margin-left: 140px;
+  padding-top: 70px;
+  font-family: 'Roboto', sans-serif;
+  display:flex;
+  justify-content: center;
 }
 
 .App-logo {
@@ -21,6 +29,85 @@
 
 .App-link {
   color: #61dafb;
+}
+.kostici{
+  background: url('./img/kostici.png') no-repeat;
+  background-size: cover;
+  width: 85px;
+  height: 85px;
+  position: absolute;
+  right: -45px;
+  top: -40px;
+}
+.pohled {
+  background: url('./img/pohled.png') no-repeat;
+  background-size: contain;
+  width: 450px;
+  height: 400px;
+  position: absolute;
+  transform: rotate(15deg);
+  left:10%;
+  bottom:7%;
+  z-index: 10;
+ }
+.paper {
+  position: relative;
+  background-image: url('./img/cara.png');
+  background-repeat: no-repeat;
+  background-color: #EEEC66;
+  background-position: 12%;
+  padding: 20px 10px 0 10px;
+}
+.divider{
+  width: 1px;
+  border-left: 1px solid red;
+  left: 82px;
+  bottom: 14px;
+}
+form{
+  display: flex;
+}
+form input {
+  flex: 1 0;
+  padding-left: 48px;
+  overflow: hidden;
+  background: none;
+  line-height: 30px;
+  size:20px;
+  font-size: 19px;
+  border:0;
+  border-bottom:2px solid black;
+  outline: 0;
+}
+table {
+  width: 100%;
+}
+table td {
+  border-bottom: 1px solid #19fff3;
+}
+tbody > tr:last-child td {
+  border-bottom:2px solid black;
+}
+.footer {
+  padding: 15px 0;
+  display:flex;
+  flex-direction: row;
+  background: #EEEC66;
+}
+.footer div{
+  padding: 0 5px;
+  cursor: pointer;
+  font-weight: 700;
+}
+.footer div:hover{
+  text-decoration: underline;
+}
+.doneCount {
+  color:#fff;
+  position: absolute;
+  text-transform: uppercase;
+  right:40px;
+  bottom:25px;
 }
 
 @keyframes App-logo-spin {

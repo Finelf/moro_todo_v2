@@ -27,7 +27,6 @@ export const fetchAllTodos = () => {
                 let newResponse = response.data.forEach(item => {
                    item['isEditing'] = false;
                 })
-                console.log(newResponse)
                 dispatch(getTodo(response.data))
             }).catch(error => {
                 throw(error)

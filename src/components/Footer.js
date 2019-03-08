@@ -1,4 +1,4 @@
-import React, {Component, Fragment} from 'react';
+import React, {Component} from 'react';
 import {connect} from 'react-redux'
 import {deleteItem,
     fetchAllTodos,
@@ -7,15 +7,7 @@ import {deleteItem,
     deleteComplete,
     completeTodo} from "../redux/actions";
 
-import Button from '@material-ui/core/Button';
-
 class Footer extends Component {
-    doneCount = () => {
-        let count = this.props.todos.filter( x => {
-            return x.completed
-        }).length;
-        return count
-    }
     completeAll = () => {
         this.props.todos.forEach(item => {
             if(item.completed === false){
@@ -33,14 +25,13 @@ class Footer extends Component {
     render() {
         const {fetchAll, fetchComplete, fetchIncomplete} = this.props
         return (
-            <Fragment>
-                    <Button onClick={() => this.completeAll()}>Complete all</Button>
-                    <Button onClick={fetchAll}>All</Button>
-                    <Button onClick={fetchComplete}>Complete</Button>
-                    <Button onClick={fetchIncomplete}>Incomplete</Button>
-                    <Button onClick={() => this.deleteComplete()}>Delete complete</Button>
-                    <div>Done {this.doneCount()}</div>
-            </Fragment>
+            <div className='footer'>
+                    <div onClick={() => this.completeAll()}>Complete all</div>
+                    <div onClick={fetchAll}>All</div>
+                    <div onClick={fetchComplete}>Complete</div>
+                    <div onClick={fetchIncomplete}>Incomplete</div>
+                    <div onClick={() => this.deleteComplete()}>Delete complete</div>
+            </div>
         );
     }
 }

@@ -18,8 +18,6 @@ const store = createStore(reducer, enhancers);
 
 store.dispatch(fetchAllTodos());
 
-store.subscribe(() => { console.log(store.getState()) });
-
 render(
     <Provider store={store}>
         <App/>

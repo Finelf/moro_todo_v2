@@ -1,5 +1,5 @@
 import React, {Component, Fragment} from 'react';
-import {addTodo, addNewTodo} from "../redux/actions";
+import {addNewTodo} from "../redux/actions";
 import {connect} from "react-redux";
 
 class InputCom extends Component {
@@ -29,6 +29,7 @@ class InputCom extends Component {
                            onChange={this.handleChange}
                            name='form'
                            value={this.state.input}
+                           placeholder='Přidej Úkol'
                            required
                     />
                 </form>
