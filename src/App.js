@@ -4,6 +4,7 @@ import InputCom from './components/InputCom'
 import ToDoList from './components/ToDoList'
 import Footer from "./components/Footer";
 
+import IconLoop from '@material-ui/icons/Loop';
 import './App.css'
 
 class App extends Component {
@@ -18,7 +19,8 @@ class App extends Component {
             <div className="App">
                 <div className='pohled'></div>
                 <div className='paper'>
-                    <div className='kostici'></div>
+                    {this.props.isLoading ? <IconLoop className='animate'/> : null}
+                    <div className='kostici'> </div>
                     <InputCom/>
                     <ToDoList/>
                     <Footer/>
@@ -30,7 +32,8 @@ class App extends Component {
 }
 const mapStateToProps = state => {
     return {
-        todos: state.todos
+        todos: state.todos,
+        isLoading: state.isLoading
     }
 }
 

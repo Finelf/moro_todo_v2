@@ -2,6 +2,14 @@ body {
   background: url(./img/lednice.jpeg) no-repeat;
   background-size: cover
 }
+.animate {
+  position: absolute;
+  left: 18px;
+  top: 15px;
+  animation-name: loader;
+  animation-duration: 1s;
+  animation-iteration-count: infinite;
+}
 .App {
   margin-left: 140px;
   padding-top: 70px;
@@ -57,6 +65,7 @@ body {
   background-color: #EEEC66;
   background-position: 12%;
   padding: 20px 10px 0 10px;
+  z-index: 15;
 }
 .divider{
   width: 1px;
@@ -73,7 +82,6 @@ form input {
   overflow: hidden;
   background: none;
   line-height: 30px;
-  size:20px;
   font-size: 19px;
   border:0;
   border-bottom:2px solid black;
@@ -87,6 +95,15 @@ table td {
 }
 tbody > tr:last-child td {
   border-bottom:2px solid black;
+}
+.text input {
+  border-bottom: none;
+  padding-left: 0;
+  font-size: 17px;
+  font-weight: 700;
+}
+.text input::placeholder {
+  color: red;
 }
 .footer {
   padding: 15px 0;
@@ -102,6 +119,9 @@ tbody > tr:last-child td {
 .footer div:hover{
   text-decoration: underline;
 }
+.footer .icon {
+  cursor: pointer !important;
+}
 .doneCount {
   color:#fff;
   position: absolute;
@@ -110,11 +130,11 @@ tbody > tr:last-child td {
   bottom:25px;
 }
 
-@keyframes App-logo-spin {
+@keyframes loader {
   from {
-    transform: rotate(0deg);
+    transform: rotate(360deg);
   }
   to {
-    transform: rotate(360deg);
+    transform: rotate(0);
   }
 }

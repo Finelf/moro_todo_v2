@@ -3,7 +3,9 @@ import {connect} from 'react-redux'
 import {
     deleteItem,
     completeTodo,
-    incompleteTodo
+    incompleteTodo,
+    toggleEditing,
+    updateTodoItem
 } from "../redux/actions";
 
 import IconEdit from '@material-ui/icons/Edit';
@@ -12,10 +14,27 @@ import Checkbox from '@material-ui/core/Checkbox'
 
 class ToDoList extends Component {
     state = {
-        isEditing: false
+        input: ''
+    }
+    handleChange = (e) => {
+        e.preventDefault();
+        this.setState({
+            input: e.target.value
+        })
+    }
+    handleSubmit = (id) => {
+        this.props.updateTodoItem({
+            text: this.state.input,
+            id:id
+        })
     }
     handleDelete = (val) => {
         this.props.deleteTodo({
+            id: val
+        })
+    }
+    handleEdit = (val) => {
+        this.props.toggleEditing({
             id: val
         })
     }
@@ -48,13 +67,22 @@ class ToDoList extends Component {
                                     value="toggle done"/>
                             </td>
                             <td className='text'>
-                                {this.state.isEditing ? <div/> :
+                                {todo.isEditing ?
+                                    <form onSubmit={(e) => {e.preventDefault(); this.handleSubmit(todo.id)}}>
+                                        <input type="text"
+                                               onChange={this.handleChange}
+                                               name='form'
+                                               value={this.state.input}
+                                               placeholder={todo.text}
+                                               required
+                                        />
+                                    </form> :
                                     <span style={{textDecoration: todo.completed ? 'line-through' : 'none'}}>{todo.text}</span>
                                 }
                             </td>
                             <td width="15%">
-                                <IconEdit onClick={() => this.setState({isEditing: true})}/>
-                                <IconClear onClick={() => this.handleDelete(todo.id)}/>
+                                <IconEdit className='icon' onClick={() => this.handleEdit(todo.id)}/>
+                                <IconClear className='icon' onClick={() => this.handleDelete(todo.id)}/>
                             </td>
                         </tr>
                     ))}
@@ -73,7 +101,10 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => ({
     deleteTodo: val => dispatch(deleteItem(val)),
     completeTodo: val => dispatch(completeTodo(val)),
+    updateTodoItem: val => dispatch(updateTodoItem(val)),
     incompleteTodo: val => dispatch(incompleteTodo(val)),
+    toggleEditing: val => dispatch(toggleEditing(val)),
+
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ToDoList);

@@ -14,8 +14,10 @@ class InputCom extends Component {
     }
     handleSubmit = (e) => {
         e.preventDefault();
+        e.stopPropagation();
         this.props.addTodo({
             text: this.state.input
+
         })
         this.setState({input:''})
     }
